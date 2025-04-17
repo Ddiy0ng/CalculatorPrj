@@ -7,7 +7,7 @@ public class App {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Calculation cal = new Calculation();
+        Calculator cal = new Calculator();
 
         int option = 0;//option
         int n1 = 0;//first num
