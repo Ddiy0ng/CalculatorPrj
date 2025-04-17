@@ -2,18 +2,25 @@ package calculator;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.math.BigDecimal;
 
 public class App {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Calculator cal = new Calculator();
+        ArithmeticCalculator cal = new ArithmeticCalculator();
+
+
+
 
         int option = 0;//option
-        int n1 = 0;//first num
-        int n2 = 0;//second num
-        int num = 0;//index
-        int newVal = 0;//newValue
+        //    int n1 = 0;//first num
+        //   int n2 = 0;//second num
+        NumberG<Number> n1 = null;
+        NumberG<Number> n2 = null;
+        int index = 0;//index
+        BigDecimal newVal = null;//newValue
+        BigDecimal result = null;
         String type = null;//calculation
         String input = null;//exit
 
@@ -36,11 +43,7 @@ public class App {
                         while(true) {
                             System.out.print("1st number. Enter a 'positive integer' or '0': ");
                             try {
-                                n1 = sc.nextInt();
-                                if (n1 < 0) {
-                                    System.out.println("Wrong enter. Please enter again.");
-                                    continue;
-                                }
+                                n1 = new NumberG<>(sc.nextBigDecimal());
                                 sc.nextLine();//reset the Scanner
                             } catch (InputMismatchException e) {
                                 sc.nextLine();
@@ -54,11 +57,7 @@ public class App {
                         while(true){
                             System.out.print("2nd number. Enter a 'positive integer' or '0': ");
                             try{
-                                n2 = sc.nextInt();
-                                if(n2 < 0){
-                                    System.out.println("Wrong enter. Please enter again.");
-                                    continue;
-                                }
+                                n2 = new NumberG<>(sc.nextBigDecimal());
                                 sc.nextLine();//reset the Scanner
                             } catch(InputMismatchException e){
                                 sc.nextLine();
@@ -67,42 +66,42 @@ public class App {
                             }
                             break;
                         }
+
+
+
+
+
+
                         //calculate
                         System.out.println("\nEnter the operation symbol you want to use. ");
                         while(true){
+                            BigDecimal b1 = new BigDecimal(n1.getNum().toString());
+                            BigDecimal b2 = new BigDecimal(n2.getNum().toString());
+
                             System.out.println("add: +");
                             System.out.println("sub: -");
                             System.out.println("mul: *");
                             System.out.println("div: /");
                             System.out.print("->");
-                            type = sc.nextLine();
+                            try {
+                                type = sc.nextLine();
 
-                            if(type.equals("+")){
-                                System.out.printf("%nresult: %s%n", cal.add(n1, n2));
-                                break;
-                            }
-                            if(type.equals("-")){
-                                System.out.printf("%nresult: %s%n", cal.sub(n1, n2));
-                                break;
-                            }
-                            if(type.equals("*")){
-                                System.out.printf("%nresult: %s%n", cal.mul(n1, n2));
-                                break;
-                            }
-                            if(type.equals("/")){
-                                if(n2 == 0){
-                                    System.out.println("\nn2 = 0, Can't divide by 0. Please enter without division.");
+                                if(cal.calculation(b1, b2, type) == null) {
                                     continue;
                                 }
-                                System.out.printf("%nresult: %s%n", cal.div(n1, n2));
-                                break;
+                                result = cal.calculation(b1, b2, type);
+                                System.out.println(result);
+                                cal.addData(result);
+                                System.out.println("현재 저장 개수: " + cal.dataSize());
+                                System.out.println();
+                            }catch(NullPointerException n) {
+                                System.out.println("Wrong enter. Please Enter again.(exception)");
+                                continue;
                             }
-                            else{
-                                System.out.println("\nWrong enter. Please enter again.");
-                            }
+                            break;
                         }
-
                         break;
+
                     case 2://Get data
                         if(cal.dataSize() == 0){
                             System.out.println("There are no any data");
@@ -111,21 +110,21 @@ public class App {
                         System.out.println("Enter the index you want to get.\n");
                         System.out.println("(Starts from 0)");
                         while(true){
-                                System.out.print("->");
-                                try{
-                                    num = sc.nextInt();
-                                    sc.nextLine();
-                                    if(num < 0 || num >= cal.dataSize()){
-                                        System.out.println("Entered index exceeded the size. Please enter again.");
-                                        continue;
-                                    }
-                                    break;
-                                }catch(InputMismatchException e){
-                                    sc.nextLine();
-                                    System.out.println("Wrong type Enter. Please enter again.");
+                            System.out.print("->");
+                            try{
+                                index = sc.nextInt();
+                                sc.nextLine();
+                                if(index < 0 || index >= cal.dataSize()){
+                                    System.out.println("Entered index exceeded the size. Please enter again.");
+                                    continue;
                                 }
+                                break;
+                            }catch(InputMismatchException e){
+                                sc.nextLine();
+                                System.out.println("Wrong type Enter. Please enter again.");
                             }
-                        System.out.printf("GetData: %s", cal.getData(num));
+                        }
+                        System.out.printf("GetData: %s", cal.getData(index));
                         System.out.println("\n");
                         break;
                     case 3://Set data
@@ -138,9 +137,9 @@ public class App {
                         while(true){
                             System.out.print("->");
                             try{
-                                num = sc.nextInt();
+                                index = sc.nextInt();
                                 sc.nextLine();
-                                if(num < 0 || num >= cal.dataSize()){
+                                if(index < 0 || index >= cal.dataSize()){
                                     System.out.println("Entered index exceeded the size. Please enter again.");
                                     continue;
                                 }
@@ -156,7 +155,7 @@ public class App {
                         while(true){
                             System.out.print("->");
                             try{
-                                newVal = sc.nextInt();
+                                newVal = sc.nextBigDecimal();
                                 sc.nextLine();
                                 break;
                             }
@@ -165,7 +164,7 @@ public class App {
                                 System.out.println("Wrong type Enter. Please enter again.");
                             }
                         }
-                        cal.setData(num, Integer.toString(newVal));
+                        cal.setData(index, newVal);
                         System.out.println("\n");
                         break;
                     case 4://Remove oldest data
