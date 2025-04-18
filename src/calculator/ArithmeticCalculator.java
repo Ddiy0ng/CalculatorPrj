@@ -1,13 +1,16 @@
 package calculator;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;//반올림
 
 public class ArithmeticCalculator {
 
     //컬렉현 캡슐화
-    private ArrayList<BigDecimal> data = new ArrayList<BigDecimal>();
+    private List<BigDecimal> data = new ArrayList<BigDecimal>();
 
     //enum선언
     public enum Type{
@@ -57,7 +60,7 @@ public class ArithmeticCalculator {
                     System.out.println("\nn2 = 0, Can't divide by 0. Please enter without division.");
                     return null;
                 }
-                return b1.divide(b2, 20, RoundingMode.HALF_UP);
+                return b1.divide(b2, 20, RoundingMode.HALF_UP);//소수점 아래 자리수, 반올림
             default:
                 return null;
         }
@@ -73,14 +76,14 @@ public class ArithmeticCalculator {
         data.add(result);
     }
 
-    //컬렉션 GET
+    //컬렉션 요소 GET
     BigDecimal getData(int num){
         return data.get(num);
     }
 
     //컬렉션 SET
     void setData(int num, BigDecimal newVal){
-        System.out.printf("Set %dth data into %s", num, newVal);
+        System.out.printf("Set %dth data into %s%n", num, newVal);
         data.set(num, newVal);
         System.out.println();
     }
@@ -90,4 +93,17 @@ public class ArithmeticCalculator {
         data.remove(0);
         System.out.println("Deleted the oldest data");
     }
+
+    //조건3
+    BigNumOut BigList = new BigNumOut() {
+        @Override
+        public void bigList(BigDecimal scannerInput) {
+
+            Stream<BigDecimal> stream = data.stream();
+            Stream<BigDecimal> compare = stream.filter(index -> index.compareTo(scannerInput) > 0);
+            List<BigDecimal> bigNumList = compare.collect(Collectors.toList());
+
+            System.out.println(bigNumList);
+        }
+    };
 }
