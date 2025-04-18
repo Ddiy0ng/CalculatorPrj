@@ -13,7 +13,6 @@ public class ArithmeticCalculator {
     //final used for keeping data from being reassigned from other reference type
     private final List<BigDecimal> data = new ArrayList<>();
 
-    //enum선언
     public enum Type{
         Add("+"),//store "+" in the Type.Add field
         Sub("-"),
@@ -30,14 +29,13 @@ public class ArithmeticCalculator {
             return type;
         }
 
-        //연산자 이름 출력
+        //print type name
         static String nameCheck(String enteredType){
             for(Type t : values()) {
                 if(t.getType().equals(enteredType)) {
                     return t.name();
                 }
             }
-            //없으면 null 출력
             return null;
         }
     }
@@ -60,41 +58,40 @@ public class ArithmeticCalculator {
                     break;
                 }
                 //if result is infinite decimal, ArithmeticException occurs. set scale and rounding to prevent it
-                result = b1.divide(b2, 20, RoundingMode.HALF_UP);//소수점 아래 자리수, 반올림
+                result = b1.divide(b2, 20, RoundingMode.HALF_UP);
                 break;
         }
         return result;
     }
 
-    //컬렉션 크기 확인
+    //return Collection size
     int dataSize(){
         return data.size();
     }
 
-    //컬렉션 삽입
+    //insert data in Collection
     void addData(BigDecimal result) {
         data.add(result);
     }
 
-    //컬렉션 요소 GET
+    // get element from Collection
     BigDecimal getData(int num){
         return data.get(num);
     }
 
-    //컬렉션 SET
+    //change element's value into new value
     void setData(int num, BigDecimal newVal){
         System.out.printf("Set %dth data into %s%n", num, newVal);
         data.set(num, newVal);
         System.out.println();
     }
 
-    // 컬렉션 REMOVE: 가장 먼저 저장된 데이터 삭제
+    // remove the oldest data
     void removeOldestData(){
         data.remove(0);
         System.out.println("Deleted the oldest data");
     }
 
-    //조건3
     BigNumOut BigList = new BigNumOut() {
         @Override
         public void bigList(BigDecimal scannerInput) {
