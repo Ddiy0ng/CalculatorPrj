@@ -2,8 +2,8 @@ package calculator;
 
 import java.math.BigDecimal;
 
-public class NumberG<T extends Number> {
-    private T number;
+public class NumberG<T extends Number> {//extends Number를 통해 숫자만 다루겠다고 제한 선언
+    private final T number;
 
     @SuppressWarnings("unchecked")
     public NumberG(BigDecimal num){
@@ -12,9 +12,5 @@ public class NumberG<T extends Number> {
 
     public T getNum() {
         return this.number;
-    }
-
-    public void setNum(T number) {
-        this.number = number;
     }
 }

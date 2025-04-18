@@ -5,34 +5,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.math.BigDecimal;
-import java.math.RoundingMode;//반올림
+import java.math.RoundingMode;
 
 public class ArithmeticCalculator {
 
-    //컬렉현 캡슐화
-    private List<BigDecimal> data = new ArrayList<BigDecimal>();
+    //Encapsulation Collection
+    //final used for keeping data from being reassigned from other reference type
+    private final List<BigDecimal> data = new ArrayList<>();
 
     //enum선언
     public enum Type{
-        Add("+"),
+        Add("+"),//store "+" in the Type.Add field
         Sub("-"),
         Mul("*"),
         Div("/");
 
-        final String type;
+        private final String type;
 
         Type(String type) {
             this.type = type;
         }
 
-        String getType(){
+        String getType(){//get private var type by using getter
             return type;
         }
 
         //연산자 이름 출력
-        static String nameCheck(String type){
+        static String nameCheck(String enteredType){
             for(Type t : values()) {
-                if(t.getType().equals(type)) {
+                if(t.getType().equals(enteredType)) {
                     return t.name();
                 }
             }
@@ -41,29 +42,28 @@ public class ArithmeticCalculator {
         }
     }
 
-
-
-
-    //다른 타입 계산 가능하도록 BigDecimal 이용
-
     BigDecimal calculation(BigDecimal b1, BigDecimal b2, String type) {
-
+        BigDecimal result = null;
         switch(Type.nameCheck(type)) {
             case "Add":
-                return b1.add(b2);
+                result = b1.add(b2);
+                break;
             case "Sub":
-                return b1.subtract(b2);
+                result = b1.subtract(b2);
+                break;
             case "Mul":
-                return b1.multiply(b2);
+                result = b1.multiply(b2);
+                break;
             case "Div":
-                if(b2.signum() == 0) {
+                if(b2.signum() == 0) {//0 != 0.0 when they are BigDecimal. if it's 0, signum() returns 0
                     System.out.println("\nn2 = 0, Can't divide by 0. Please enter without division.");
-                    return null;
+                    break;
                 }
-                return b1.divide(b2, 20, RoundingMode.HALF_UP);//소수점 아래 자리수, 반올림
-            default:
-                return null;
+                //if result is infinite decimal, ArithmeticException occurs. set scale and rounding to prevent it
+                result = b1.divide(b2, 20, RoundingMode.HALF_UP);//소수점 아래 자리수, 반올림
+                break;
         }
+        return result;
     }
 
     //컬렉션 크기 확인
