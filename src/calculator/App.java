@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 public class App {
 
-    public static <T> void main(String[] args) {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArithmeticCalculator cal = new ArithmeticCalculator();
 
