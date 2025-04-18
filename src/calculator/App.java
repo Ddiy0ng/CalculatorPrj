@@ -1,10 +1,7 @@
 package calculator;
 
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.math.BigDecimal;
 
 public class App {
@@ -13,12 +10,7 @@ public class App {
         Scanner sc = new Scanner(System.in);
         ArithmeticCalculator cal = new ArithmeticCalculator();
 
-
-
-
         int option = 0;//option
-        //    int n1 = 0;//first num
-        //   int n2 = 0;//second num
         NumberG<Number> n1 = null;
         NumberG<Number> n2 = null;
         int index = 0;//index

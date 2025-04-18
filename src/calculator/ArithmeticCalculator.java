@@ -19,7 +19,7 @@ public class ArithmeticCalculator {
         Mul("*"),
         Div("/");
 
-        String type;
+        final String type;
 
         Type(String type) {
             this.type = type;
