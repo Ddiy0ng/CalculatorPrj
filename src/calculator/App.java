@@ -10,10 +10,13 @@ public class App {
         Scanner sc = new Scanner(System.in);//Scanner
         ArithmeticCalculator cal = new ArithmeticCalculator();//ArithmeticCalculator
 
+        NumberG<String> strInput = new NumberG<>();
+        NumberG<Integer> intInput = new NumberG<>();
+
+        BigDecimal n1;//first number
+        BigDecimal n2;// second number
         int option;//1~5th option
         int index;//stored data index
-        NumberG<Number> n1;//first number
-        NumberG<Number> n2;// second number
         BigDecimal newVal;//set into new number
         BigDecimal result;//calculation result
         BigDecimal compareNum;//compare number with stored data
@@ -43,11 +46,10 @@ public class App {
                         while(true) {
                             System.out.print("-> ");
                             try {
-                                n1 = new NumberG<>(sc.nextBigDecimal());
-                                sc.nextLine();//empty the scanner buffer
-                            } catch (InputMismatchException e) {
+                                strInput.setNum(sc.nextLine());//1~6
+                                n1 = new BigDecimal(strInput.getNum());
+                            } catch (NumberFormatException e) {
                                 //Wrong type entered error
-                                sc.nextLine();//empty the scanner buffer
                                 System.out.println("\nWrong enter. Please enter again.");
                                 continue;
                             }
@@ -58,11 +60,10 @@ public class App {
                         while(true){
                             try{
                                 System.out.print("-> ");
-                                n2 = new NumberG<>(sc.nextBigDecimal());
-                                sc.nextLine();//empty the scanner buffer
-                            } catch(InputMismatchException e){
+                                strInput.setNum(sc.nextLine());
+                                n2 = new BigDecimal(strInput.getNum());
+                            } catch(NumberFormatException e){
                                 //Wrong type entered error
-                                sc.nextLine();//empty the scanner buffer
                                 System.out.println("\nWrong enter. Please enter again.");
                                 continue;
                             }
@@ -71,8 +72,6 @@ public class App {
                         //calculate
                         System.out.println("\nEnter the operation symbol you want to use. ");
                         while(true){
-                            BigDecimal b1 = new BigDecimal(n1.getNum().toString()); //use BigDecimal for precise calculation
-                            BigDecimal b2 = new BigDecimal(n2.getNum().toString());
 
                             System.out.println("add: +");
                             System.out.println("sub: -");
@@ -81,11 +80,11 @@ public class App {
                             System.out.print("-> ");
                             try {
                                 type = sc.nextLine();
-                                if(cal.calculation(b1, b2, type) == null) {
+                                if(cal.calculation(n1, n2, type) == null) {
                                     continue;
                                 }
-                                result = cal.calculation(b1, b2, type);
-                                System.out.printf("Result: %s%n", result);
+                                result = cal.calculation(n1, n2, type);
+                                System.out.printf("%nResult: %s%n", result);
                                 cal.addData(result);
                                 System.out.printf("Data amount: %d%n", cal.dataSize());
                                 System.out.println();
@@ -98,7 +97,7 @@ public class App {
                         break;
                     case 2://Get data
                         if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
-                            System.out.println("There are no any data\n");
+                            System.out.println("\nThere are no any data\n");
                             System.out.println();
                             break;
                         }
@@ -107,7 +106,8 @@ public class App {
                         while(true){
                             System.out.print("-> ");
                             try{
-                                index = sc.nextInt();
+                                intInput.setNum(sc.nextInt());
+                                index = intInput.getNum();
                                 sc.nextLine();//empty the scanner buffer
                                 if(index < 0 || index >= cal.dataSize()){
                                     System.out.println("\nEntered index is out of bound. Please enter again.");
@@ -119,12 +119,12 @@ public class App {
                                 System.out.println("\nWrong type Enter. Please enter again.");
                             }
                         }
-                        System.out.printf("Get data: %s%n", cal.getData(index));
+                        System.out.printf("%nGet data: %s%n", cal.getData(index));
                         System.out.println();
                         break;
                     case 3://Set data
                         if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
-                            System.out.println("There are no any data to set\n");
+                            System.out.println("\nThere are no any data to set\n");
                             System.out.println();
                             break;
                         }
@@ -133,7 +133,8 @@ public class App {
                         while(true){
                             System.out.print("-> ");
                             try{
-                                index = sc.nextInt();
+                                intInput.setNum(sc.nextInt());
+                                index = intInput.getNum();
                                 sc.nextLine();//empty the scanner buffer
                                 if(index < 0 || index >= cal.dataSize()){
                                     System.out.println("\nEntered index is out of bound. Please enter again.");
@@ -151,20 +152,19 @@ public class App {
                         while(true){
                             System.out.print("-> ");
                             try{
-                                newVal = sc.nextBigDecimal();
-                                sc.nextLine();//empty the scanner buffer
+                                strInput.setNum(sc.nextLine());
+                                newVal = new BigDecimal(strInput.getNum());
                                 cal.setData(index, newVal);
                                 break;
                             }
-                            catch(InputMismatchException e){
-                                sc.nextLine();//empty the scanner buffer
+                            catch(NumberFormatException e){
                                 System.out.println("\nWrong type Enter. Please enter again.");
                             }
                         }
                         break;
                     case 4://Remove oldest data
                         if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
-                            System.out.println("There are no any data to remove");
+                            System.out.println("\nThere are no any data to remove\n");
                             break;
                         }
                         cal.removeOldestData();
@@ -172,7 +172,7 @@ public class App {
                         break;
                     case 5: //Bigger num out
                         if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
-                            System.out.println("There are no any data you can compare to.\n");
+                            System.out.println("\nThere are no any data you can compare to.\n");
                             System.out.println();
                             break;
                         }
@@ -181,10 +181,9 @@ public class App {
                         while(true) {
                             System.out.print("-> ");
                             try {
-                                compareNum = sc.nextBigDecimal();
-                                sc.nextLine();//empty the scanner buffer
-                            }catch (InputMismatchException e){
-                                sc.nextLine();//empty the scanner buffer
+                                strInput.setNum(sc.nextLine());
+                                compareNum = new BigDecimal(strInput.getNum());
+                            }catch (NumberFormatException e){
                                 System.out.println("\nWrong enter. Please enter again.2");
                                 continue;
                             }
@@ -204,14 +203,13 @@ public class App {
                         System.out.println("\n'Exit' denied. Going back to the menu.\n");
                         break;
                     default://No any option number except 1~6
-                        System.out.println("Wrong Enter.");
+                        System.out.println("\nWrong Enter.\n");
                 }
             }
             catch (InputMismatchException e){//wrong enter
                 sc.nextLine();//empty the scanner buffer
                 System.out.println("\nWrong enter.\n");
             }
-
         }
     }
 }

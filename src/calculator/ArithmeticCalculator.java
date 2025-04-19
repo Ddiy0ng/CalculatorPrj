@@ -89,18 +89,17 @@ public class ArithmeticCalculator {
     // remove the oldest data
     void removeOldestData(){
         data.remove(0);
-        System.out.println("Deleted the oldest data");
+        System.out.println("\nDeleted the oldest data");
     }
 
-    BigNumOut BigList = new BigNumOut() {
-        @Override
-        public void bigList(BigDecimal scannerInput) {
+    //Bigger nums out
+    BigNumOut BigList = scannerInput -> {
 
-            Stream<BigDecimal> stream = data.stream();
-            Stream<BigDecimal> compare = stream.filter(index -> index.compareTo(scannerInput) > 0);
-            List<BigDecimal> bigNumList = compare.collect(Collectors.toList());
+        Stream<BigDecimal> stream = data.stream();
+        Stream<BigDecimal> compare = stream.filter(index -> index.compareTo(scannerInput) > 0);
+        List<BigDecimal> bigNumList = compare.collect(Collectors.toList());
 
-            System.out.println(bigNumList);
-        }
+        System.out.println(bigNumList);
     };
+
 }

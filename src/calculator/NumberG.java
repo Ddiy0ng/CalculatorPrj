@@ -1,16 +1,12 @@
 package calculator;
 
-import java.math.BigDecimal;
-
-public class NumberG<T extends Number> {
-    private final T number;
-
-    @SuppressWarnings("unchecked")
-    public NumberG(BigDecimal num){
-        this.number = (T) num;
-    }
+public class NumberG<T> {
+    private T number;
 
     public T getNum() {
         return this.number;
+    }
+    public  void setNum(T num){
+        this.number = num;
     }
 }
