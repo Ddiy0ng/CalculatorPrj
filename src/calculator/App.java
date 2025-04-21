@@ -124,7 +124,7 @@ public class App {
                                         break;
                                     case 2:
                                         if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
-                                            System.out.println("There are no any data\n");
+                                            System.out.println("\nThere are no any data");
                                             System.out.println();
                                             break;
                                         }

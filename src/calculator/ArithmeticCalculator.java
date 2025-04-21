@@ -112,10 +112,6 @@ public class ArithmeticCalculator {
        System.out.println("\n<Data list>");
        System.out.println("------------------");
        for(int i = 0; i < data.size(); i++){
-           if(getData(i).signum() == 0){
-               //0.0 == 0
-               System.out.printf("%dth data: %s%n", i, 0);
-           }
            System.out.printf("%dth data: %s%n", i, getData(i));
        }
        System.out.println("------------------\n");
