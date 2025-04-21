@@ -25,6 +25,7 @@ public class App {
         NumberG<Integer> intInput = new NumberG<>();
 
         int option;//1~5th option
+        int optionGet;
         int index;//stored data index
         BigDecimal n1;//first number
         BigDecimal n2;// second number
@@ -34,15 +35,15 @@ public class App {
         String type;//operator
         String input;//exit or not
 
+        System.out.println("~*Program started*~\n");
         while(true){
-
             //option menu
             System.out.println("Enter the option number you want.");
             System.out.println("1: Calculation");
             System.out.println("2: Get data");
             System.out.println("3: Set data");
             System.out.println("4: Remove oldest data");
-            System.out.println("5: Compare data to number you Enter");
+            System.out.println("5: Compare number");
             System.out.println("6: Exit");
             System.out.print("-> ");
 
@@ -95,7 +96,7 @@ public class App {
                                     continue;
                                 }
                                 result = cal.calculation(n1, n2, type);
-                                System.out.printf("%nResult: %s%n", result);
+                                System.out.printf("%nResult: %s %s %s = %s%n", n1, type, n2, result);
                                 cal.addData(result);
                                 System.out.printf("Data amount: %d%n", cal.dataSize());
                                 System.out.println();
@@ -107,31 +108,61 @@ public class App {
                         }
                         break;
                     case 2://Get data
-                        if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
-                            System.out.println("\nThere are no any data\n");
-                            System.out.println();
-                            break;
-                        }
-                        System.out.println("\nEnter the index you want to get.");
-                        System.out.println("(Starts from 0)");
+                        System.out.println("\nChoose the option you want.");
+                        System.out.println("1: Get all data");
+                        System.out.println("2: Get one data");
+                        System.out.println("3: Go back");
                         while(true){
                             System.out.print("-> ");
                             try{
-                                intInput.setNum(sc.nextInt());
-                                index = intInput.getNum();
-                                sc.nextLine();//empty the scanner buffer
-                                if(index < 0 || index >= cal.dataSize()){
-                                    System.out.println("\nEntered index is out of bound. Please enter again.");
-                                    continue;
+                                optionGet = sc.nextInt();
+                                sc.nextLine();
+
+                                switch(optionGet){
+                                    case 1:
+                                        cal.getAllData();
+                                        break;
+                                    case 2:
+                                        if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
+                                            System.out.println("There are no any data\n");
+                                            System.out.println();
+                                            break;
+                                        }
+                                        System.out.println("\nEnter the index you want to get.");
+                                        System.out.println("(Starts from 0)");
+                                        while(true){
+                                            System.out.print("-> ");
+                                            try{
+                                                intInput.setNum(sc.nextInt());
+                                                index = intInput.getNum();
+                                                sc.nextLine();//empty the scanner buffer
+                                                if(index < 0 || index >= cal.dataSize()){
+                                                    System.out.println("\nEntered index is out of bound. Please enter again.");
+                                                    continue;
+                                                }
+                                                break;
+                                            }catch(InputMismatchException e){
+                                                sc.nextLine();
+                                                System.out.println("\nWrong type Enter. Please enter again.");
+                                            }
+                                        }
+                                        System.out.printf("%nGet data: %s%n", cal.getData(index));
+                                        System.out.println();
+                                        break;
+                                    case 3:
+                                        System.out.println("\nGo back\n");
+                                        break;
+                                    default:
+                                        System.out.println("\nWrong enter. Please enter again.");
+                                        continue;
                                 }
-                                break;
                             }catch(InputMismatchException e){
                                 sc.nextLine();
-                                System.out.println("\nWrong type Enter. Please enter again.");
+                                System.out.println("\nWrong enter. Please enter again.");
+                                continue;
                             }
+                            break;
                         }
-                        System.out.printf("%nGet data: %s%n", cal.getData(index));
-                        System.out.println();
                         break;
                     case 3://Set data
                         if(cal.dataSize() == 0){//Keep user from approaching data when collection is empty
@@ -195,7 +226,7 @@ public class App {
                                 strInput.setNum(sc.nextLine());
                                 compareNum = new BigDecimal(strInput.getNum());
                             }catch (NumberFormatException e){
-                                System.out.println("\nWrong enter. Please enter again.2");
+                                System.out.println("\nWrong enter. Please enter again.");
                                 continue;
                             }
                             cal.BigList.bigList(compareNum);
@@ -213,7 +244,7 @@ public class App {
                         }
                         System.out.println("\n'Exit' denied. Going back to the menu.\n");
                         break;
-                    default://No any option number except 1~6
+                    default://No any option number except 1~7
                         System.out.println("\nWrong Enter.\n");
                 }
             }
