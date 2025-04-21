@@ -4,6 +4,17 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.math.BigDecimal;
 
+class NumberG<T> {
+    private T number;
+
+    public T getNum() {
+        return this.number;
+    }
+    public  void setNum(T num){
+        this.number = num;
+    }
+}
+
 public class App {
 
     public static void main(String[] args) {
@@ -13,10 +24,10 @@ public class App {
         NumberG<String> strInput = new NumberG<>();
         NumberG<Integer> intInput = new NumberG<>();
 
-        BigDecimal n1;//first number
-        BigDecimal n2;// second number
         int option;//1~5th option
         int index;//stored data index
+        BigDecimal n1;//first number
+        BigDecimal n2;// second number
         BigDecimal newVal;//set into new number
         BigDecimal result;//calculation result
         BigDecimal compareNum;//compare number with stored data

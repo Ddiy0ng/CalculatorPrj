@@ -7,6 +7,11 @@ import java.util.stream.Stream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@FunctionalInterface
+interface BigNumOut{
+    void bigList(BigDecimal scannerInput);
+}
+
 public class ArithmeticCalculator {
 
     //Encapsulation Collection
@@ -17,7 +22,8 @@ public class ArithmeticCalculator {
         Add("+"),//store "+" in the Type.Add field
         Sub("-"),
         Mul("*"),
-        Div("/");
+        Div("/"),
+        Pow("^");
 
         private final String type;
 
