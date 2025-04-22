@@ -22,8 +22,7 @@ public class ArithmeticCalculator {
         Add("+"),//store "+" in the Type.Add field
         Sub("-"),
         Mul("*"),
-        Div("/"),
-        Pow("^");
+        Div("/");
 
         private final String type;
 
